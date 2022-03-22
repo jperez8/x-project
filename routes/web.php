@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+//POST ROUTES
+Route::get('/posts', [PostController::class, 'index']);
+
+//GOOGLE ROUTES
+Route::post('/auth/google', [GoogleController::class, 'authenticate']);
+
+Route::get('csrf', function() {
+    return csrf_token(); 
+});
+
+
+require __DIR__ . '/auth.php';
