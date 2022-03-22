@@ -30,5 +30,3 @@ Route::get('csrf', function() {
     return csrf_token(); 
 });
 
-
-require __DIR__ . '/auth.php';
