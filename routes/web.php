@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,9 @@ Route::get('/', function () {
 
 //POST ROUTES
 Route::get('/posts', [PostController::class, 'index']);
+
+//USER ROUTE
+Route::get('/users/{user}', [UserController::class, 'show']);
 
 //GOOGLE ROUTES
 Route::post('/auth/google', [GoogleController::class, 'authenticate']);
