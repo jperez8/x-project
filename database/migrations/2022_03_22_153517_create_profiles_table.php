@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->string('main_comment');
-            $table->string('image');
+            $table->bigInteger('type_profile_id')->nullable();
+            $table->text('description')->nullable();
+            $table->string('profile_mini_image')->nullable();
+            $table->string('profile_header_image')->nullable();
+            $table->json('features')->nullable();
+            $table->string('phone')->nullable();
+            $table->boolean('is_public')->default(true);
             $table->timestamps();
         });
     }
@@ -29,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('profiles');
     }
 };
