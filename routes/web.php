@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,20 +22,34 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return ['Laravel' => app()->version()];
 });
 
+//SANCTUM
+Route::post('/sanctum/token', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+        'device_name' => 'required',
+    ]);
 
-//POST ROUTES
-Route::get('/posts', [PostController::class, 'index']);
+    $user = User::where('email', $request->email)->first();
+    
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        throw ValidationException::withMessages([
+            'email' => ['The provided credentials are incorrect.'],
+        ]);
+    }
+
+    return $user->createToken($request->device_name)->plainTextToken;
+});
+
 
 //USER ROUTE
 Route::get('/users/{user}', [UserController::class, 'show']);
 
-//GOOGLE ROUTES
 Route::post('/auth/google', [GoogleController::class, 'authenticate']);
 
-Route::get('csrf', function() {
-    return csrf_token(); 
-});
 
+
+require __DIR__ . '/auth.php';

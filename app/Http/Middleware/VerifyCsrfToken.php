@@ -16,5 +16,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'auth/facebook/callback',
         'auth/google/callback',
+        '/sanctum/token',
+        '/auth/google'
     ];
 }
