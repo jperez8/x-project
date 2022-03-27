@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -17,11 +18,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::middleware(['auth:sanctum'])->group(function() {
     Route::get('/user', [UserController::class, 'show']);
     Route::get('/users/{user}', [UserController::class, 'getUserData']);
+    Route::get('/posts', [PostController::class, 'index']);
 });

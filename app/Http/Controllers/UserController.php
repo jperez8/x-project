@@ -16,7 +16,7 @@ class UserController extends Controller
     /**
      *
      * @param  \App\User  $user
-     * @return mixed
+     * @return json
      */
     public function getUserData(User $user)
     {

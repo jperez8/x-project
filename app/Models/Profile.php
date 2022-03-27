@@ -10,17 +10,9 @@ class Profile extends Model
 {
     use HasFactory;
 
-    // protected $appends = ['type'];
-
     public function typeProfile()
     {
         return $this->belongsTo(TypeProfile::class);
     }
 
-    // public function type(): Attribute
-    // {
-    //     return new Attribute(
-    //         get: fn () => $this->typeProfile,
-    //     );
-    // }
 }

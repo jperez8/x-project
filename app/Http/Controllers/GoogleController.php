@@ -24,6 +24,9 @@ class GoogleController extends Controller
 
         Auth::login($user);
 
-        return response(json_encode($user), 201);
+        return response(json_encode([
+            'user' => $user,
+            'bearer_token' => $user->createToken($request->device_name)->plainTextToken
+        ]), 201);
     }
 }
