@@ -47,7 +47,7 @@ class UserFactory extends Factory
             return [
                 'name' => 'admin',
                 'email' => 'admin@admin.com',
-                'password' => $this->faker->md5('password'),
+                'password' => Hash::make('password'),
                 'is_admin' => true
             ];
         });

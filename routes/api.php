@@ -19,7 +19,6 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware(['auth:sanctum'])->group(function() {
-    Route::get('/user', [UserController::class, 'show']);
-    Route::get('/users/{user}', [UserController::class, 'getUserData']);
+    Route::get('/users/{user}', [UserController::class, 'getProfileDataByUser']);
     Route::get('/posts', [PostController::class, 'index']);
 });

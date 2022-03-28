@@ -7,21 +7,13 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function show(Request $request)
-    {
-        return $this->getUserData($request->user);
-    }
-
-
     /**
      *
      * @param  \App\User  $user
      * @return json
      */
-    public function getUserData(User $user)
+    public function getProfileDataByUser(User $user)
     {
-        $user->load(['profile', 'posts', 'profile.typeProfile']);
-
-        return response(json_encode($user), 200);
+        return response(json_encode($user->getProfileData()), 200);
     }
 }
