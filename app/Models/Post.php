@@ -23,4 +23,9 @@ class Post extends Model
             get: fn () => asset($this->image),
         );
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

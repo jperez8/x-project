@@ -44,12 +44,6 @@ Route::post('/sanctum/token', function (Request $request) {
     return $user->createToken($request->device_name)->plainTextToken;
 });
 
-
-//USER ROUTE
-Route::get('/users/{user}', [UserController::class, 'show']);
-
 Route::post('/auth/google', [GoogleController::class, 'authenticate']);
-
-
 
 require __DIR__ . '/auth.php';

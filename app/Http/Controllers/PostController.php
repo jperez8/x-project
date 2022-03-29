@@ -9,6 +9,8 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        return Post::all();
+        $posts = collect(Post::with(['user', 'user.profile'])->get());
+
+        return response(json_encode($posts->random(10)), 200);
     }
 }
