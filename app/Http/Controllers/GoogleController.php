@@ -13,6 +13,7 @@ class GoogleController extends Controller
     {
         $googleUser = Socialite::driver('google')->stateless()->userFromToken($request->token);
 
+        /** @var User $user */
         $user = User::updateOrCreate([
             'google_id' => $googleUser->id,
         ], [
@@ -23,6 +24,8 @@ class GoogleController extends Controller
         ]);
 
         Auth::login($user);
+
+        $user->load('profile.type_profile');
 
         return response(json_encode([
             'user' => $user,

@@ -13,7 +13,8 @@ class UserController extends Controller
      * @return json
      */
     public function getProfileDataByUser(User $user)
-    {
-        return response(json_encode($user->getProfileData()), 200);
+    {   
+        /** @var User $user */
+        return response(json_encode($user->posts), 200);
     }
 }
