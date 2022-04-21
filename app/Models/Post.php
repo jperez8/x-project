@@ -10,6 +10,8 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'main_comment', 'image'];
+
     /**
      * The accessors to append to the model's array form.
      *

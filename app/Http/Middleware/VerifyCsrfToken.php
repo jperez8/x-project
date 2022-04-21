@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         'auth/facebook/callback',
         'auth/google/callback',
         '/sanctum/token',
-        '/auth/google'
+        '/auth/google',
+        '/api/post'
     ];
 }
