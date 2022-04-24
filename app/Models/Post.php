@@ -22,7 +22,7 @@ class Post extends Model
     public function imageLink(): Attribute
     {
         return new Attribute(
-            get: fn () => asset($this->image),
+            get: fn () => asset("storage/$this->image"),
         );
     }
 

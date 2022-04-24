@@ -13,9 +13,9 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = collect(Post::with(['user.profile'])->get());
+        $posts = collect(Post::with(['user.profile'])->where('id', '>', 50)->orderBy('id', 'DESC')->get());
 
-        return response(json_encode($posts->random(10)), 200);
+        return response(json_encode($posts), 200);
     }
 
     public function store(Request $request)
