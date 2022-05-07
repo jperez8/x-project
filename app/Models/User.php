@@ -56,4 +56,15 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
+    public function followers()
+    {
+        return $this->belongsToMany(self::class, 'user_user', 'followed_id', 'follower_id')->withPivot('is_premium')->wherePivot('is_accepted', true);
+    }
+
+    public function followeds()
+    {
+        return $this->belongsToMany(self::class, 'user_user', 'follower_id', 'followed_id')->withPivot('is_premium')->wherePivot('is_accepted', true);;
+    }
+
+
 }
