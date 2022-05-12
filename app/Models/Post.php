@@ -10,6 +10,13 @@ class Post extends Model
 {
     use HasFactory;
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['user.profile'];
+
     protected $fillable = ['user_id', 'main_comment', 'image'];
 
     /**

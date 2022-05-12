@@ -18,11 +18,3 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware(['auth:sanctum'])->group(function() {
-    Route::get('/users/{user}', [UserController::class, 'getProfileDataByUser']);
-    
-    Route::controller(PostController::class)->group(function(){
-        Route::get('/posts', 'index');
-        Route::post('/post', 'store');
-    });
-});

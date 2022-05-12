@@ -25,7 +25,7 @@ class GoogleController extends Controller
 
         Auth::login($user);
 
-        $user->load('profile.type_profile');
+        $user->load('profile.typeProfile');
 
         return response(json_encode([
             'user' => $user,
