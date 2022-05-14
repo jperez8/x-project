@@ -67,28 +67,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(self::class, 'user_user', 'follower_id', 'followed_id')->withPivot('is_premium')->wherePivot('is_accepted', true);;
     }
-
-    /**
-     * Get the user's followers
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
-     */
-    protected function folls(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->followers,
-        );
-    }
-
-    /**
-     * Get the user's followeds
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
-     */
-    protected function folleds(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->followeds,
-        );
-    }
 }
