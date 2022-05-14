@@ -47,7 +47,6 @@ class User extends Authenticatable
         'is_admin' => 'boolean'
     ];
 
-    protected $appends = ['folls', 'folleds'];
 
     public function posts()
     {
