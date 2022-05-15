@@ -52,7 +52,8 @@ Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
     
     Route::controller(PostController::class)->group(function () {
         Route::get('posts', 'index');
-        Route::get('posts/{user}', 'getPostsByUser');
+        Route::get('posts/{user}', 'getFeed');
+        Route::get('posts/self/{user}', 'getPostsByUser');
         Route::post('post', 'store');
     });
 

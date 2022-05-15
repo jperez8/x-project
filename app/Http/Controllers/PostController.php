@@ -7,15 +7,27 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $posts = collect(Post::where('id', '>', 45)->orderBy('id', 'DESC')->get());
+        $posts = Post::where('id', '>', 45)->orderBy('id', 'DESC')->get();
 
-        return response(json_encode($posts), 200);
+        return response($posts);
+    }
+
+    public function getFeed(User $user)
+    {
+        $followeds_ids = $user->followeds->map(fn ($f) => $f->id);
+
+        if(!count($followeds_ids) > 0) return $this->index();
+
+        $posts = Post::whereIn('user_id', [...$followeds_ids, $user->id])->orderBy('created_at', 'DESC')->get();
+
+        return response($posts);
     }
 
     /**
@@ -26,6 +38,7 @@ class PostController extends Controller
     public function getPostsByUser(User $user)
     {
         /** @var User $user */
+        Log::info("User coming $user->id");
         return response(json_encode($user->posts), 200);
     }
 
