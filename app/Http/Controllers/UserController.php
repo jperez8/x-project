@@ -15,15 +15,12 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return String
      */
-    public function follow(User $user)
+    public function follow(User $user_logged, User $user_request)
     {
         try {
-            /** @var User $user_logged */
-            $user_logged = Auth::user();
+            Log::info("User $user_request->id request to follow $user_logged->id");
 
-            Log::info("User $user->id request to follow $user_logged->id");
-
-            $user_logged->followers()->save($user);
+            $user_logged->followers()->save($user_request);
 
             return 'ok';
         } catch (Exception $e) {

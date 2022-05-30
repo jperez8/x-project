@@ -57,7 +57,7 @@ Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
         Route::post('post', 'store');
     });
 
-    Route::get('follow/{user}', [UserController::class, 'follow']);
+    Route::get('follow/{user_logged}/{user_request}', [UserController::class, 'follow']);
 }); 
 
 
