@@ -19,13 +19,13 @@ class UserController extends Controller
     {
         try {
             Log::info("User $user_request->id request to follow $user_logged->id");
-
+            
             $user_logged->followers()->save($user_request);
-
+            
             return 'ok';
         } catch (Exception $e) {
             Log::error($e);
-            return 'error';
+            abort(500, $e);
         }
     }
 }

@@ -21,9 +21,9 @@ class PostController extends Controller
 
     public function getFeed(User $user)
     {
-        $followeds_ids = $user->followeds->map(fn ($f) => $f->id);
+        $followeds_ids = $user->followeds->modelKeys();
 
-        if(!count($followeds_ids) > 0) return $this->index();
+        if(empty($followeds_ids)) return $this->index();
 
         $posts = Post::whereIn('user_id', [...$followeds_ids, $user->id])->orderBy('created_at', 'DESC')->get();
 
