@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -66,5 +66,29 @@ class User extends Authenticatable
     public function followeds()
     {
         return $this->belongsToMany(self::class, 'user_user', 'follower_id', 'followed_id')->withPivot('is_premium')->wherePivot('is_accepted', true);
+    }
+
+    /**
+     * Get the number of followers
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function numFollowers(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => count($this->followers),
+        );
+    }
+
+    /**
+     * Get the number of followers
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function numFolloweds(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => count($this->followeds),
+        );
     }
 }

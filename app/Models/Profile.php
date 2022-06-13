@@ -10,6 +10,15 @@ class Profile extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'is_public' => 'boolean'
+    ];
+
     public function typeProfile()
     {
         return $this->belongsTo(TypeProfile::class);

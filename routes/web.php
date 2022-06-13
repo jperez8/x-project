@@ -25,7 +25,6 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
-
 Route::post('/auth/google', [GoogleController::class, 'authenticate']);
 
 //Protected Routes by sanctum
@@ -38,29 +37,15 @@ Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
         Route::get('posts/self/{user}', 'getPostsByUser');
         Route::post('post', 'store');
     });
+
+    Route::controller(UserController::class)->group(function () {
+        Route::get('follow/{user_logged}/{user_request}', 'follow');
+        Route::get('user/{user}', 'show');
+    });
     
-    Route::get('follow/{user_logged}/{user_request}', [UserController::class, 'follow']);
 }); 
 
 
 require __DIR__ . '/auth.php';
 
-//SANCTUM TEMPORAL
-Route::post('/sanctum/token', function (Request $request) {
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-        'device_name' => 'required',
-    ]);
 
-    $user = User::where('email', $request->email)->first();
-
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
-        ]);
-    }
-
-    return $user->createToken($request->device_name)->plainTextToken;
-});
-///////////////////////

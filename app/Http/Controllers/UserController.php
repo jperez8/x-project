@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
+    public function show(User $user)
+    {
+        $user->load(['profile.typeProfile']);
+
+        return $user->setAppends(['num_followers', 'num_followeds'])->toArray();
+    }
+    
     /**
      *
      * @param  \App\User  $user
