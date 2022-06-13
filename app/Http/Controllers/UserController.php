@@ -19,9 +19,9 @@ class UserController extends Controller
     {
         try {
             Log::info("User $user_request->id request to follow $user_logged->id");
-            
-            $user_logged->followers()->save($user_request);
-            
+
+            $user_logged->followeds()->save($user_request);
+
             return 'ok';
         } catch (Exception $e) {
             Log::error($e);

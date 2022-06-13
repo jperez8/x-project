@@ -65,6 +65,6 @@ class User extends Authenticatable
 
     public function followeds()
     {
-        return $this->belongsToMany(self::class, 'user_user', 'follower_id', 'followed_id')->withPivot('is_premium')->wherePivot('is_accepted', true);;
+        return $this->belongsToMany(self::class, 'user_user', 'follower_id', 'followed_id')->withPivot('is_premium')->wherePivot('is_accepted', true);
     }
 }
