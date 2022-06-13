@@ -25,6 +25,26 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
+
+Route::post('/auth/google', [GoogleController::class, 'authenticate']);
+
+//Protected Routes by sanctum
+Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
+    
+    Route::controller(PostController::class)->group(function () {
+        Route::get('posts', 'index');
+        Route::get('posts/{user}', 'getFeed');
+        Route::get('posts/unfollowed/{user}', 'getRandomSearch');
+        Route::get('posts/self/{user}', 'getPostsByUser');
+        Route::post('post', 'store');
+    });
+    
+    Route::get('follow/{user_logged}/{user_request}', [UserController::class, 'follow']);
+}); 
+
+
+require __DIR__ . '/auth.php';
+
 //SANCTUM TEMPORAL
 Route::post('/sanctum/token', function (Request $request) {
     $request->validate([
@@ -44,21 +64,3 @@ Route::post('/sanctum/token', function (Request $request) {
     return $user->createToken($request->device_name)->plainTextToken;
 });
 ///////////////////////
-
-Route::post('/auth/google', [GoogleController::class, 'authenticate']);
-
-//Protected Routes by sanctum
-Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
-    
-    Route::controller(PostController::class)->group(function () {
-        Route::get('posts', 'index');
-        Route::get('posts/{user}', 'getFeed');
-        Route::get('posts/self/{user}', 'getPostsByUser');
-        Route::post('post', 'store');
-    });
-
-    Route::get('follow/{user_logged}/{user_request}', [UserController::class, 'follow']);
-}); 
-
-
-require __DIR__ . '/auth.php';
