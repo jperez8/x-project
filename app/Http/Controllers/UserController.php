@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function show(User $user)
     {
-        $user->load(['profile.typeProfile']);
+        $user->load(['profile.typeProfile', 'posts']);
 
         return $user->setAppends(['num_followers', 'num_followeds'])->toArray();
     }
