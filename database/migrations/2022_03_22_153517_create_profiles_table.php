@@ -24,6 +24,8 @@ return new class extends Migration
             $table->json('features')->nullable();
             $table->string('phone')->nullable();
             $table->boolean('is_public')->default(true);
+            $table->integer('num_followers')->default(0);
+            $table->integer('num_followeds')->default(0);
             $table->timestamps();
         });
     }
