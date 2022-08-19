@@ -16,6 +16,8 @@ class PostController extends Controller
     {
         $posts = Post::where('user_id', '<>', $user_id)->orderBy('created_at', 'DESC')->get();
 
+        info($posts);
+        
         return response($posts);
     }
 
@@ -58,23 +60,26 @@ class PostController extends Controller
         return $posts;
     }
 
+    /*TODO: Refactor inyect post dependency
+    / validate fields before RequestPostValidator?
+    */
     public function store(Request $request)
     {
 
         try {
-            $path = $request->image->store('post_images', 'public');
+            $image_path = $request->image->store('post_images', 'public');
 
             $post = Post::create([
                 'user_id' => $request->user_id,
                 'main_comment' => $request->main_comment,
-                'image' => $path,
+                'image' => $image_path,
             ]);
 
             Log::info("Post $post->id created succesfully");
 
-            $response = (object) ['success' => true, $post];
+            $response = ['success' => true, $post];
 
-            return response(json_encode($response), 201);
+            return response($response, 201);
         } catch (Exception $e) {
             Log::error($e);
             $res = (object) ['error' => true, 'message' => $e];
