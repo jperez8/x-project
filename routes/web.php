@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\StyleController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +29,7 @@ Route::get('/', function () {
 Route::post('/auth/google', [GoogleController::class, 'authenticate']);
 
 //Protected Routes by sanctum
-Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
+Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('api')->group(function () {
     
     Route::controller(PostController::class)->group(function () {
         Route::get('posts', 'index');
@@ -39,9 +40,12 @@ Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
     });
 
     Route::controller(UserController::class)->group(function () {
-        Route::get('follow/{user_logged}/{user_request}', 'follow');
+        Route::post('follow/{user_logged}/{user_request}', 'follow');
         Route::get('user/{user}', 'show');
+        Route::get('user/search/{payload}', 'searchBy');
     });
+
+    Route::get('style/search/{payload}', [StyleController::class, 'searchBy']);
     
 }); 
 

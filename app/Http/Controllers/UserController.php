@@ -16,12 +16,15 @@ class UserController extends Controller
 
         return $user->setAppends(['num_followers', 'num_followeds'])->toArray();
     }
+
+    public function searchBy(String $payload)
+    {
+        $result = User::where('name', 'like', "%$payload%")
+                        ->orWhereHas('profile', fn($q) => $q->where('username', 'like', "%$payload%"))
+                        ->get();
+        return response($result);
+    }
     
-    /**
-     *
-     * @param  \App\User  $user
-     * @return String
-     */
     public function follow(User $user_logged, User $user_request)
     {
         try {

@@ -12,11 +12,9 @@ use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
-    public function index($user_id)
+    public function index()
     {
-        $posts = Post::where('user_id', '<>', $user_id)->orderBy('created_at', 'DESC')->get();
-
-        info($posts);
+        $posts = Post::orderBy('created_at', 'DESC')->get();
         
         return response($posts);
     }
@@ -39,7 +37,6 @@ class PostController extends Controller
      */
     public function getPostsByUser(User $user)
     {
-        /** @var User $user */
         Log::info("User coming $user->id");
         return response(json_encode($user->posts));
     }
