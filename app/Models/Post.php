@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -28,8 +29,9 @@ class Post extends Model
 
     public function imageLink(): Attribute
     {
+        
         return new Attribute(
-            get: fn () => asset("storage/$this->image"),
+            get: fn () => str_starts_with($this->image, 'https') ? $this->image : asset("storage/$this->image"),
         );
     }
 
