@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 
 class StyleController extends Controller
 {
-    public function searchBy(String $payload)
+    public function searchBy($payload)
     {
-        return response([]);
+        $result = Style::where('name', 'like', "%$payload%")->get();
+        return response($result);
     }
 }

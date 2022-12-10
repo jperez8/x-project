@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         
         User::factory()->count(10)->has(Profile::factory()->state(new Sequence(
             fn ($sequence) => ['type_profile_id' => TypeProfile::all()->random()],
-        )), 'profile')->hasPosts(5)->create();
+        )), 'profile')->hasPosts(3)->create();
         User::factory()->admin()->create();
     }
 }

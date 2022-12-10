@@ -39,4 +39,9 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function style()
+    {
+        return $this->belongsTo(Style::class);
+    }
 }

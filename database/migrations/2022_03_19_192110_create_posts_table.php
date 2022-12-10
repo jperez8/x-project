@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('main_comment');
             $table->string('image');
+            $table->bigInteger('style_id');
             $table->timestamps();
         });
     }

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Post;
+use App\Models\Style;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +19,16 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-           'main_comment' => $this->faker->sentence(),
-           'image' => $this->faker->imageUrl(400, 600, 'fashion')
+            'main_comment' => $this->faker->sentence(),
+            'image' => $this->faker->imageUrl(400, 600, 'fashion'),
+            'style_id' => 1
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Post $post) {
+            Style::all()->random()->posts()->save($post);
+        });
     }
 }
