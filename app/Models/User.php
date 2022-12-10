@@ -35,6 +35,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'google_id',
+        'google_token',
+        'google_refresh_token'
     ];
 
     /**
@@ -76,7 +79,7 @@ class User extends Authenticatable
     protected function numFollowers(): Attribute
     {
         return Attribute::make(
-            get: fn () => count($this->followers),
+            get: fn () => 125,
         );
     }
 
@@ -88,7 +91,7 @@ class User extends Authenticatable
     protected function numFolloweds(): Attribute
     {
         return Attribute::make(
-            get: fn () => count($this->followeds),
+            get: fn () => 30,
         );
     }
 }
