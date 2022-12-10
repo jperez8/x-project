@@ -46,15 +46,13 @@ class PostController extends Controller
      * @param  \App\Models\User  $user
      * @return json
      */
-    public function getRandomSearch(User $user)
+    public function getRandomSearch(User $user, $post_id = 0)
     {
         $followeds_ids = $user->followeds->modelKeys();
 
-        if(empty($followeds_ids)) return $this->index($user->id);
+        $posts = Post::whereNotIn('user_id', [...$followeds_ids, $user->id])->whereNot('id', $post_id)->orderBy('created_at', 'DESC')->get()->shuffle();
 
-        $posts = Post::whereNotIn('user_id', [...$followeds_ids, $user->id])->orderBy('created_at', 'DESC')->get();
-
-        return $posts;
+        return response($posts);
     }
 
     /*TODO: Refactor inyect post dependency
