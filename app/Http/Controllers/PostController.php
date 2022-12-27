@@ -81,4 +81,11 @@ class PostController extends Controller
             return response(json_encode($res), 500);
         }
     }
+
+    public function saveFavPost(User $user, Post $post)
+    {
+        $user->favs()->save($post);
+        
+        return response('ok', 201);
+    }
 }
