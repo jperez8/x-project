@@ -81,6 +81,11 @@ class PostController extends Controller
         }
     }
 
+    public function getFavsPosts(User $user)
+    {
+       return response($user->favs);
+    }
+
     public function saveFavPost(User $user, Post $post)
     {
         $user->favs()->save($post);

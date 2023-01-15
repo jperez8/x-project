@@ -16,8 +16,6 @@ class GoogleController extends Controller
     {
         $googleUser = Socialite::driver('google')->stateless()->userFromToken($request->token);
 
-        info(json_encode($googleUser));
-
         /** @var User $user */
         $user = User::updateOrCreate([
             'google_id' => $googleUser->id,

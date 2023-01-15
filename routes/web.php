@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('api')->group(functi
         Route::get('posts/unfollowed/{user}/{post_id?}', 'getRandomSearch');
         Route::get('posts/self/{user}', 'getPostsByUser');
         Route::post('post', 'store');
+        Route::get('posts/favs/{user}', 'getFavsPosts');
         Route::post('post/{user}/save/{post}', 'saveFavPost');
     });
 
