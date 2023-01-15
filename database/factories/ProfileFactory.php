@@ -17,6 +17,7 @@ class ProfileFactory extends Factory
     public function definition()
     {
         return [
+            "username" => $this->faker->name(),
             "description" => $this->faker->paragraph(),
             "profile_mini_image" => $this->faker->imageUrl(200,200),
             "profile_header_image" => $this->faker->imageUrl(200,200),

@@ -37,7 +37,6 @@ class PostController extends Controller
      */
     public function getPostsByUser(User $user)
     {
-        Log::info("User coming $user->id");
         return response(json_encode($user->posts));
     }
 
