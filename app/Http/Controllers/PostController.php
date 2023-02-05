@@ -6,8 +6,6 @@ use App\Models\Post;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
@@ -49,12 +47,12 @@ class PostController extends Controller
     {
         $followeds_ids = $user->followeds->modelKeys();
 
-        $posts = Post::whereNotIn('user_id', [...$followeds_ids, $user->id])->whereNot('id', $post_id)->orderBy('created_at', 'DESC')->get()->shuffle();
+        $posts = Post::whereNotIn('user_id', [...$followeds_ids, $user->id])->whereIn('style_id', $user->profile->fav_styles_array)->whereNot('id', $post_id)->orderBy('created_at', 'DESC')->get()->shuffle();
 
         return response($posts);
     }
 
-    /*TODO: Refactor inyect post dependency
+    /*
     / validate fields before RequestPostValidator?
     */
     public function store(Request $request)
@@ -67,12 +65,12 @@ class PostController extends Controller
                 'user_id' => $request->user_id,
                 'main_comment' => $request->main_comment,
                 'image' => $image_path,
+                'style_id' => $request->style_id
             ]);
-
             Log::info("Post $post->id created succesfully");
 
             $response = ['success' => true, $post];
-
+            
             return response($response, 201);
         } catch (Exception $e) {
             Log::error($e);

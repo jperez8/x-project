@@ -6,6 +6,7 @@ use Illuminate\Contracts\Console\Kernel;
 
 trait CreatesApplication
 {
+    protected $seed = true;
     /**
      * Creates the application.
      *

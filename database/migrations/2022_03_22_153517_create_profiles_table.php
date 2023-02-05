@@ -22,6 +22,7 @@ public function up()
             $table->string('profile_mini_image')->nullable();
             $table->string('profile_header_image')->nullable();
             $table->json('fav_styles')->nullable();
+            $table->json('fav_brands')->nullable();
             $table->string('phone')->nullable();
             $table->boolean('is_public')->default(true);
             $table->integer('num_followers')->default(0);

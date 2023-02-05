@@ -22,6 +22,8 @@ class ProfileFactory extends Factory
             "profile_mini_image" => $this->faker->imageUrl(200,200),
             "profile_header_image" => $this->faker->imageUrl(200,200),
             "phone" => $this->faker->e164PhoneNumber(),
+            "fav_styles" => json_encode([1,2,3,4,5]),
+            "fav_brands" => json_encode([1,2,3,4,5]),
         ];
     }
 }

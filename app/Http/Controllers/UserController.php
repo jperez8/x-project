@@ -32,7 +32,7 @@ class UserController extends Controller
 
             $user_logged->followeds()->save($user_request);
 
-            return 'ok';
+            return response('ok', 201);
         } catch (Exception $e) {
             Log::error($e);
             abort(500, $e);

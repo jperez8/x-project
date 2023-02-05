@@ -48,7 +48,9 @@ class GoogleController extends Controller
         $profile->profile_mini_image = $avatar;
         $profile->profile_header_image = "https://via.placeholder.com/200x200.png/00ddbb?text=nemo";
         $profile->phone = "656566565";
-        
+        $profile->fav_styles = json_encode([1,2,3,4,5]);
+        $profile->fav_brands = json_encode([1,2,3,4,5]);
+                
         return $profile;
     }
 }

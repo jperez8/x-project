@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Post;
 use App\Models\Profile;
+use App\Models\Style;
 use App\Models\TypeProfile;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,7 +23,7 @@ class UserSeeder extends Seeder
 
         User::factory()->count(10)->has(Profile::factory()->state(new Sequence(
             fn ($sequence) => ['type_profile_id' => TypeProfile::all()->random()],
-        )), 'profile')->hasPosts(3)->create();
+        )), 'profile')->has(Post::factory()->count(3)->hasBrands(2))->create();
         User::factory()->admin()->create();
     }
 }

@@ -28,7 +28,7 @@ class PostFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Post $post) {
-            Style::all()->random()->posts()->save($post);
+            Style::all()->random()->posts()->save($post);            
         });
     }
 }

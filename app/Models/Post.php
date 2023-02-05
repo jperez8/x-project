@@ -18,7 +18,7 @@ class Post extends Model
      */
     protected $with = ['user.profile'];
 
-    protected $fillable = ['user_id', 'main_comment', 'image'];
+    protected $fillable = ['user_id', 'main_comment', 'image', 'style_id'];
 
     /**
      * The accessors to append to the model's array form.
@@ -31,7 +31,7 @@ class Post extends Model
     {
         
         return new Attribute(
-            get: fn () => str_starts_with($this->image, 'https') ? $this->image : asset("storage/$this->image"),
+            get: fn () => str_starts_with($this->image, 'https') ? $this->image : Storage::url($this->image),
         );
     }
 
@@ -43,5 +43,10 @@ class Post extends Model
     public function style()
     {
         return $this->belongsTo(Style::class);
+    }
+
+    public function brands()
+    {
+        return $this->belongsToMany(Brand::class);
     }
 }
