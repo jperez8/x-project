@@ -20,7 +20,12 @@ class PostFactory extends Factory
     {
         return [
             'main_comment' => $this->faker->sentence(),
-            'image' => $this->faker->imageUrl(400, 600, 'fashion'),
+            'images' => json_encode([
+                $this->faker->imageUrl(400, 600, 'fashion'),
+                $this->faker->imageUrl(400, 600, 'fashion'),
+                $this->faker->imageUrl(400, 600, 'fashion'),
+                $this->faker->imageUrl(400, 600, 'fashion')
+            ]),
             'style_id' => 1
         ];
     }
