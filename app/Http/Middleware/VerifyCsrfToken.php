@@ -19,6 +19,6 @@ class VerifyCsrfToken extends Middleware
         '/sanctum/token',
         '/auth/google',
         '/api/post/*',
-        'follow/*/*'
+        '/api/follow/*/*'
     ];
 }
