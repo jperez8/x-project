@@ -24,17 +24,17 @@ class Profile extends Model
         return $this->belongsTo(TypeProfile::class);
     }
 
-    protected function fav_styles_array(): Attribute
+    protected function favStyles(): Attribute
     {
         return Attribute::make(
-            get: fn () => json_decode($this->fav_styles)
+            get: fn ($value) => json_decode($value)
         );
     }
 
-    protected function fav_brands_array(): Attribute
+    protected function favBrands(): Attribute
     {
         return Attribute::make(
-            get: fn () => json_decode($this->fav_styles)
+            get: fn ($value) => json_decode($value)
         );
-    }   
+    }
 }
