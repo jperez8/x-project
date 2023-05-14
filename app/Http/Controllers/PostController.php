@@ -13,7 +13,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::orderBy('created_at', 'DESC')->get();
-        
+
         return response($posts);
     }
 
@@ -47,7 +47,7 @@ class PostController extends Controller
     {
         $followeds_ids = $user->followeds->modelKeys();
 
-        $posts = Post::whereNotIn('user_id', [...$followeds_ids, $user->id])->whereIn('style_id', $user->profile->fav_styles_array)->whereNot('id', $post_id)->orderBy('created_at', 'DESC')->get()->shuffle();
+        $posts = Post::whereNotIn('user_id', [...$followeds_ids, $user->id])->whereIn('style_id', $user->profile->fav_styles)->whereNot('id', $post_id)->orderBy('created_at', 'DESC')->get()->shuffle();
 
         return response($posts);
     }
@@ -70,7 +70,7 @@ class PostController extends Controller
             Log::info("Post $post->id created succesfully");
 
             $response = ['success' => true, $post];
-            
+
             return response($response, 201);
         } catch (Exception $e) {
             Log::error($e);
@@ -87,7 +87,7 @@ class PostController extends Controller
     public function saveFavPost(User $user, Post $post)
     {
         $user->favs()->save($post);
-        
+
         return response('ok', 201);
     }
 }
