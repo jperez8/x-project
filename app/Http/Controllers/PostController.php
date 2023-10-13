@@ -3,21 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Style;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $posts = Post::orderBy('created_at', 'DESC')->get();
 
         return response($posts);
     }
 
-    public function getFeed(User $user)
+    public function getFeed(User $user): Response
     {
         $followeds_ids = $user->followeds->modelKeys();
 
@@ -33,7 +35,7 @@ class PostController extends Controller
      * @param  \App\Models\User  $user
      * @return json
      */
-    public function getPostsByUser(User $user)
+    public function getPostsByUser(User $user): Response
     {
         return response(json_encode($user->posts));
     }
@@ -43,7 +45,7 @@ class PostController extends Controller
      * @param  \App\Models\User  $user
      * @return json
      */
-    public function getRandomSearch(User $user, $post_id = 0)
+    public function getRandomSearch(User $user, $post_id = 0) : Response
     {
         $followeds_ids = $user->followeds->modelKeys();
 
@@ -52,10 +54,16 @@ class PostController extends Controller
         return response($posts);
     }
 
+    function getSearchByStyle(Style $style) : Response
+    {
+        //TODO: PAGINATION
+        return response($style->posts);
+    }
+
     /*
     / validate fields before RequestPostValidator?
     */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
 
         try {
@@ -64,7 +72,7 @@ class PostController extends Controller
             $post = Post::create([
                 'user_id' => $request->user_id,
                 'main_comment' => $request->main_comment,
-                'image' => $image_path,
+                'images' => json_encode([$image_path]),
                 'style_id' => $request->style_id
             ]);
             Log::info("Post $post->id created succesfully");
@@ -79,12 +87,12 @@ class PostController extends Controller
         }
     }
 
-    public function getFavsPosts(User $user)
+    public function getFavsPosts(User $user): Response
     {
        return response($user->favs);
     }
 
-    public function saveFavPost(User $user, Post $post)
+    public function saveFavPost(User $user, Post $post): Response
     {
         $user->favs()->save($post);
 

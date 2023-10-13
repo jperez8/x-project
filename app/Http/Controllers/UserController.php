@@ -17,14 +17,14 @@ class UserController extends Controller
         return $user->setAppends(['num_followers', 'num_followeds']);
     }
 
-    public function searchBy(String $payload)
+    public function searchBy(string $payload = '')
     {
         $result = User::where('name', 'like', "%$payload%")
                         ->orWhereHas('profile', fn($q) => $q->where('username', 'like', "%$payload%"))
                         ->get();
         return response($result);
     }
-    
+
     public function follow(User $user_logged, User $user_request)
     {
         try {

@@ -7,8 +7,8 @@ use Illuminate\Database\Seeder;
 
 class StyleSeeder extends Seeder
 {
-    private $styles = ['Boho', 'Hipster', 'Trendy', 'Causal', 'Artsy', 'Clasico', 'Exotico', 'Glamoroso'];
-    
+    private $styles = ['Boho', 'Hipster', 'Trendy', 'Casual', 'Artsy', 'Clasico', 'Exotico', 'Glamoroso'];
+
     /**
      * Run the database seeds.
      *
@@ -18,7 +18,7 @@ class StyleSeeder extends Seeder
     {
         Style::factory()
             ->count(count($this->styles))
-            ->sequence(fn ($sequence) => 
+            ->sequence(fn ($sequence) =>
                 ['name' => $this->styles[$sequence->index]],
             )
             ->create();
