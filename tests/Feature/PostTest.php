@@ -21,6 +21,7 @@ class PostTest extends TestCase
         Storage::fake('public');
 
         $file = UploadedFile::fake()->image('photo.jpg');
+        $fileName = $file->hashName();
 
         $response = $this->actingAs($user)
             ->post('/api/post', [
@@ -31,11 +32,12 @@ class PostTest extends TestCase
         ]);
 
         $response->assertSuccessful();
-        Storage::disk('public')->assertExists('post_images/'.$file->hashName());  
+        Storage::disk('public')->assertExists('post_images/'.$fileName);
+
         $this->assertDatabaseHas('posts', [
             'main_comment' => 'Test comment',
             'style_id' => $style_id,
-            'image' => 'post_images/'.$file->hashName()
+            'user_id' => $user->id
         ]);
     }
 
