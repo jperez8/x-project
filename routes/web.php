@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\PostController;
@@ -49,6 +50,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('api')->group(functi
     });
 
     Route::get('style/search/{payload?}', [StyleController::class, 'searchBy']);
+    Route::get('brand/search/{payload?}', [BrandController::class, 'searchBy']);
 
 });
 
