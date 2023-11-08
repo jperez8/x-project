@@ -27,6 +27,10 @@ class Post extends Model
      */
     protected $appends = ['image_link'];
 
+    protected $casts = [
+        'images' => 'array'
+    ];
+
     public function imageLink(): Attribute
     {
         
