@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
 
         User::factory()->count(10)->has(Profile::factory()->state(new Sequence(
             fn ($sequence) => ['type_profile_id' => TypeProfile::all()->random()],
-        )), 'profile')->has(Post::factory()->count(3)->hasBrands(2))->create();
+        )), 'profile')->has(Post::factory()->count(3))->create();
         User::factory()->admin()->create();
     }
 }

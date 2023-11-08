@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Brand;
 use App\Models\Post;
 use App\Models\Style;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -33,7 +34,8 @@ class PostFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Post $post) {
-            Style::all()->random()->posts()->save($post);            
+            Style::all()->random()->posts()->save($post);
+            Brand::all()->random()->posts()->save($post);
         });
     }
 }
