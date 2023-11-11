@@ -19,14 +19,9 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        //TODO: SEED MEDIA LIBRARY
         return [
             'main_comment' => $this->faker->sentence(),
-            'images' => json_encode([
-                $this->faker->imageUrl(400, 600, 'fashion'),
-                $this->faker->imageUrl(400, 600, 'fashion'),
-                $this->faker->imageUrl(400, 600, 'fashion'),
-                $this->faker->imageUrl(400, 600, 'fashion')
-            ]),
             'style_id' => 1
         ];
     }

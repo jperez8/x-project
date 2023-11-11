@@ -8,7 +8,9 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -23,7 +25,7 @@ class PostController extends Controller
     {
         $followeds_ids = $user->followeds->modelKeys();
 
-        if(empty($followeds_ids)) return $this->index($user->id);
+        if (empty($followeds_ids)) return $this->index($user->id);
 
         $posts = Post::whereIn('user_id', [...$followeds_ids, $user->id])->orderBy('created_at', 'DESC')->get();
 
@@ -37,7 +39,8 @@ class PostController extends Controller
      */
     public function getPostsByUser(User $user): Response
     {
-        return response(json_encode($user->posts));
+        info($user);
+        return response($user->posts);
     }
 
     /**
@@ -45,7 +48,7 @@ class PostController extends Controller
      * @param  \App\Models\User  $user
      * @return json
      */
-    public function getRandomSearch(User $user, $post_id = 0) : Response
+    public function getRandomSearch(User $user, $post_id = 0): Response
     {
         $followeds_ids = $user->followeds->modelKeys();
 
@@ -54,7 +57,7 @@ class PostController extends Controller
         return response($posts);
     }
 
-    function getSearchByStyle(Style $style) : Response
+    function getSearchByStyle(Style $style): Response
     {
         //TODO: PAGINATION
         return response($style->posts);
@@ -65,31 +68,34 @@ class PostController extends Controller
     */
     public function store(Request $request): Response
     {
-
         try {
-            $image_path = $request->image->store('post_images', 'public');
+            DB::beginTransaction();
 
             $post = Post::create([
                 'user_id' => $request->user_id,
                 'main_comment' => $request->main_comment,
-                'images' => json_encode([$image_path]),
                 'style_id' => $request->style_id
             ]);
+
+            foreach ($request->file('images') as $image) {
+                $post->addMedia($image)->toMediaCollection();
+            }
+
             Log::info("Post $post->id created succesfully");
 
-            $response = ['success' => true, $post];
-
-            return response($response, 201);
+            DB::commit();
+            return response($post, 201);
         } catch (Exception $e) {
             Log::error($e);
             $res = (object) ['error' => true, 'message' => $e];
-            return response(json_encode($res), 500);
+            DB::rollBack();
+            return response($res, 400);
         }
     }
 
     public function getFavsPosts(User $user): Response
     {
-       return response($user->favs);
+        return response($user->favs);
     }
 
     public function saveFavPost(User $user, Post $post): Response

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('main_comment');
-            $table->json('images')->nullable();
             $table->string('video')->nullable();
             $table->bigInteger('style_id');
             $table->timestamps();

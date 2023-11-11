@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Post extends Model
+class Post extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
     /**
      * The relationships that should always be loaded.
@@ -20,23 +25,18 @@ class Post extends Model
 
     protected $fillable = ['user_id', 'main_comment', 'image', 'style_id'];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = ['image_link'];
+    protected $appends = ['images', 'first_image'];
 
     protected $casts = [
         'images' => 'array'
     ];
 
-    public function imageLink(): Attribute
+    public function registerMediaConversions(Media $media = null): void
     {
-        
-        return new Attribute(
-            get: fn () => str_starts_with($this->image, 'https') ? $this->image : Storage::url($this->image),
-        );
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Manipulations::FIT_CROP, 300, 300)
+            ->nonQueued();
     }
 
     public function user()
@@ -52,5 +52,15 @@ class Post extends Model
     public function brands()
     {
         return $this->belongsToMany(Brand::class);
+    }
+
+    public function getImagesAttribute()
+    {
+        return $this->getMedia();
+    }
+
+    public function getFirstImageAttribute()
+    {
+        return $this->getFirstMediaUrl();
     }
 }

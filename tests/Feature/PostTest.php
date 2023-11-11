@@ -20,25 +20,28 @@ class PostTest extends TestCase
 
         Storage::fake('public');
 
-        $file = UploadedFile::fake()->image('photo.jpg');
-        $fileName = $file->hashName();
+        $image1 = UploadedFile::fake()->image('photo1.jpg');
+        $image2 = UploadedFile::fake()->image('photo2.jpg');
+        $image3 = UploadedFile::fake()->image('photo3.jpg');
 
         $response = $this->actingAs($user)
             ->post('/api/post', [
-            'image' => $file,
+            'images' => [$image1, $image2, $image3],
             'user_id' => $user->id,
             'main_comment' => $main_comment,
             'style_id' => $style_id
         ]);
 
         $response->assertSuccessful();
-        Storage::disk('public')->assertExists('post_images/'.$fileName);
 
         $this->assertDatabaseHas('posts', [
             'main_comment' => 'Test comment',
             'style_id' => $style_id,
             'user_id' => $user->id
         ]);
+
+
+        $this->assertDatabaseCount('media', 3);
     }
 
 
