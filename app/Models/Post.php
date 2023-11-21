@@ -56,7 +56,7 @@ class Post extends Model implements HasMedia
 
     public function getImagesAttribute()
     {
-        return $this->getMedia();
+        return $this->getMedia()->map(fn (Media $media) => $media->getUrl());
     }
 
     public function getFirstImageAttribute()

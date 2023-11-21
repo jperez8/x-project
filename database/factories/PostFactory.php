@@ -28,6 +28,7 @@ class PostFactory extends Factory
 
     public function configure()
     {
+        //TODO:: ADD MEDIA IMAGES
         return $this->afterCreating(function (Post $post) {
             Style::all()->random()->posts()->save($post);
             Brand::all()->random()->posts()->save($post);
