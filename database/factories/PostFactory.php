@@ -19,7 +19,6 @@ class PostFactory extends Factory
      */
     public function definition()
     {
-        //TODO: SEED MEDIA LIBRARY
         return [
             'main_comment' => $this->faker->sentence(),
             'style_id' => 1
@@ -28,8 +27,10 @@ class PostFactory extends Factory
 
     public function configure()
     {
-        //TODO:: ADD MEDIA IMAGES
         return $this->afterCreating(function (Post $post) {
+            for ($i=0; $i < fake()->numberBetween(0, 3); $i++) {
+                $post->addMediaFromUrl(asset('images/image-'. fake()->numberBetween(0, 10) .'.jpg'))->toMediaCollection();
+            }
             Style::all()->random()->posts()->save($post);
             Brand::all()->random()->posts()->save($post);
         });

@@ -68,12 +68,13 @@ class PostController extends Controller
     */
     public function store(Request $request): Response
     {
+
         try {
             DB::beginTransaction();
 
             $post = Post::create([
                 'user_id' => $request->user_id,
-                'main_comment' => $request->main_comment,
+                'main_comment' => $request->main_comment ?? '',
                 'style_id' => $request->style_id
             ]);
 
