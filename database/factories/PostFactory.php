@@ -28,7 +28,7 @@ class PostFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Post $post) {
-            for ($i=0; $i < fake()->numberBetween(0, 3); $i++) {
+            for ($i=0; $i < fake()->numberBetween(1, 3); $i++) {
                 $post->addMediaFromUrl(asset('images/image-'. fake()->numberBetween(0, 10) .'.jpg'))->toMediaCollection();
             }
             Style::all()->random()->posts()->save($post);
