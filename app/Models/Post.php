@@ -25,10 +25,10 @@ class Post extends Model implements HasMedia
 
     protected $fillable = ['user_id', 'main_comment', 'image', 'style_id'];
 
-    protected $appends = ['images', 'first_image'];
+    protected $appends = ['first_image'];
 
     protected $casts = [
-        'images' => 'array'
+        'assets' => 'array'
     ];
 
     public function registerMediaConversions(Media $media = null): void
@@ -52,11 +52,6 @@ class Post extends Model implements HasMedia
     public function brands()
     {
         return $this->belongsToMany(Brand::class);
-    }
-
-    public function getImagesAttribute()
-    {
-        return $this->getMedia()->map(fn (Media $media) => $media->getUrl());
     }
 
     public function getFirstImageAttribute()

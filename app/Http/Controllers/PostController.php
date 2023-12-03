@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\Style;
 use App\Models\User;
@@ -17,7 +18,7 @@ class PostController extends Controller
     public function index(): Response
     {
         $posts = Post::orderBy('created_at', 'DESC')->get();
-
+        $posts = PostResource::collection($posts);
         return response($posts);
     }
 
@@ -68,7 +69,6 @@ class PostController extends Controller
     */
     public function store(Request $request): Response
     {
-
         try {
             DB::beginTransaction();
 
@@ -78,19 +78,20 @@ class PostController extends Controller
                 'style_id' => $request->style_id
             ]);
 
-            foreach ($request->file('images') as $image) {
-                $post->addMedia($image)->toMediaCollection();
+            foreach ($request->file('assets') ?? [] as $image) {
+                $post->addMedia($image)->sanitizingFileName(function ($fileName) {
+                    return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
+                })->toMediaCollection();
             }
 
-            Log::info("Post $post->id created succesfully");
-
             DB::commit();
+
+            Log::info("Post $post->id created succesfully");
             return response($post, 201);
         } catch (Exception $e) {
             Log::error($e);
-            $res = (object) ['error' => true, 'message' => $e];
             DB::rollBack();
-            return response($res, 400);
+            return response($e->getMessage(), 400);
         }
     }
 
