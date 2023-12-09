@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -84,7 +84,7 @@ class User extends Authenticatable
     protected function numFollowers(): Attribute
     {
         return Attribute::make(
-            get: fn () => 125,
+            get: fn () => rand(100,5000),
         );
     }
 
@@ -96,7 +96,7 @@ class User extends Authenticatable
     protected function numFolloweds(): Attribute
     {
         return Attribute::make(
-            get: fn () => 30,
+            get: fn () => rand(100,5000),
         );
     }
 }
