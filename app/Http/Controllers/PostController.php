@@ -29,6 +29,7 @@ class PostController extends Controller
         if (empty($followeds_ids)) return $this->index($user->id);
 
         $posts = Post::whereIn('user_id', [...$followeds_ids, $user->id])->orderBy('created_at', 'DESC')->get();
+        $posts = PostResource::collection($posts);
 
         return response($posts);
     }
@@ -40,8 +41,8 @@ class PostController extends Controller
      */
     public function getPostsByUser(User $user): Response
     {
-        info($user);
-        return response($user->posts);
+        $posts = PostResource::collection($user->posts);
+        return response($posts);
     }
 
     /**
@@ -54,7 +55,7 @@ class PostController extends Controller
         $followeds_ids = $user->followeds->modelKeys();
 
         $posts = Post::whereNotIn('user_id', [...$followeds_ids, $user->id])->whereIn('style_id', $user->profile->fav_styles)->whereNot('id', $post_id)->orderBy('created_at', 'DESC')->get()->shuffle();
-
+        $posts = PostResource::collection($posts);
         return response($posts);
     }
 

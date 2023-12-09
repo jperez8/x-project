@@ -34,7 +34,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('api')->group(functi
 
     Route::controller(PostController::class)->group(function () {
         Route::get('posts', 'index');
-        Route::get('posts/{user}', 'getFeed');
+        Route::get('posts/{user}', 'getFeed')->name('feed');
         Route::get('posts/unfollowed/{user}/{post_id?}', 'getRandomSearch');
         Route::get('posts/{style}', 'getSearchByStyle');
         Route::get('posts/self/{user}', 'getPostsByUser');

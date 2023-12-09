@@ -18,11 +18,12 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => $this->user,
-            'assets' => $this->getMedia()->map(fn (Media $media) =>
+            'assets' => $this->whenLoaded('media', $this->getMedia()->map(fn (Media $media) =>
             [
                 'url' => $media->getUrl(),
                 'type' => explode('/', $media->mime_type)[0]
-            ]),
+            ])),
+            'first_image' => $this->when(!$request->routeIs('feed'), $this->first_image),
             'main_comment' => $this->main_comment
         ];
     }
