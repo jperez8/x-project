@@ -47,6 +47,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('api')->group(functi
         Route::post('follow/{user_logged}/{user_request}', 'follow');
         Route::get('user/{user}', 'show');
         Route::get('user/search/{payload}', 'searchBy');
+        Route::post('user/like', 'like')->name('like');
     });
 
     Route::get('style/search/{payload?}', [StyleController::class, 'searchBy']);
