@@ -23,6 +23,7 @@ class PostResource extends JsonResource
                 'url' => $media->getUrl(),
                 'type' => explode('/', $media->mime_type)[0]
             ])),
+            'score' => rand(0, 10),
             'first_image' => $this->when(!$request->routeIs('feed'), $this->first_image),
             'main_comment' => $this->main_comment
         ];
