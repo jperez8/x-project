@@ -29,6 +29,8 @@ Route::get('/', function () {
 
 Route::post('/auth/google', [GoogleController::class, 'authenticate']);
 
+Route::get('api/user', [UserController::class, 'retrieve']);
+
 //Protected Routes by sanctum
 Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('api')->group(function () {
 
@@ -48,6 +50,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('api')->group(functi
         Route::get('user/{user}', 'show');
         Route::get('user/search/{payload}', 'searchBy');
         Route::post('user/like', 'like')->name('like');
+
     });
 
     Route::get('style/search/{payload?}', [StyleController::class, 'searchBy']);

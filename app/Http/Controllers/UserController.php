@@ -57,4 +57,16 @@ class UserController extends Controller
         }
         return response('ok', 201);
     }
+
+    function retrieve()
+    {
+        //CAMBIAR POR ID BUENO
+        $user = User::find(12);
+        $user->load('profile.typeProfile');
+
+        return response(json_encode([
+            'user' => $user,
+            'bearer_token' => $user->createToken('iphone15')->plainTextToken
+        ]), 201);
+    }
 }
