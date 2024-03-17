@@ -6,9 +6,11 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\Style;
 use App\Models\User;
+use App\Services\PostUserService;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -106,5 +108,24 @@ class PostController extends Controller
         $user->favs()->save($post);
 
         return response('ok', 201);
+    }
+
+    public function putScorePost(Post $post, Request $request)
+    {
+
+        $user = Auth::user();
+        $postUserService = new PostUserService($user, $post);
+        $postUserService->scorePost($request->get('score'));
+
+        Log::info("Post $post->id scored");
+        return response('ok', 201);
+    }
+
+    public function getScorePost(Post $post) : ?int {
+
+        $user = Auth::user();
+        $postUserService = new PostUserService($user, $post);
+        return $postUserService->getScorePost();
+
     }
 }

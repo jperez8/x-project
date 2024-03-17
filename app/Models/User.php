@@ -99,4 +99,19 @@ class User extends Authenticatable
             get: fn () => rand(100,5000),
         );
     }
+
+        /**
+     * Get the number of followers
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function score(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => rand(100,5000),
+        );
+    }
+
+
+
 }
