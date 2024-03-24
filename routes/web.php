@@ -4,6 +4,7 @@ use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SplitController;
 use App\Http\Controllers\StyleController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
@@ -58,6 +59,7 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('api')->group(functi
     Route::get('style/search/{payload?}', [StyleController::class, 'searchBy']);
     Route::get('brand/search/{payload?}', [BrandController::class, 'searchBy']);
 
+    Route::get('api/split/current', [SplitController::class, 'getCurrentSplit'])->name('split');
 });
 
 

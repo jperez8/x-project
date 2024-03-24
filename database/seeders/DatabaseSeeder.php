@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             StyleSeeder::class,
             BrandSeeder::class,
             TypeProfileSeeder::class,
+            SplitSeeder::class,
             UserSeeder::class
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\League;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Models\Style;
@@ -21,9 +22,12 @@ class UserSeeder extends Seeder
     public function run()
     {
 
-        User::factory()->count(10)->has(Profile::factory()->state(new Sequence(
-            fn ($sequence) => ['type_profile_id' => TypeProfile::all()->random()],
-        )), 'profile')->has(Post::factory()->count(3))->create();
+        $users = User::factory()->count(10)->has(Profile::factory())->has(Post::factory()->count(3))->create();
+        foreach ($users as $user) {
+            $league = League::where('type_profile', $user->profile->type_profile)->inRandomOrder()->first();
+            $league->users()->attach($user, ['points' => rand(0, 99999) / 100]);
+        }
+
         User::factory()->admin()->create();
     }
 }

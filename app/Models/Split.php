@@ -5,7 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Like extends Model
+class Split extends Model
 {
     use HasFactory;
+
+    function leagues()
+    {
+        return $this->belongsToMany(League::class)->withPivot('prize_ids');
+    }
 }

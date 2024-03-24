@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\TypeLike;
-use App\Models\Like;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -22,8 +20,8 @@ class UserController extends Controller
     public function searchBy(string $payload = '')
     {
         $result = User::where('name', 'like', "%$payload%")
-                        ->orWhereHas('profile', fn($q) => $q->where('username', 'like', "%$payload%"))
-                        ->get();
+            ->orWhereHas('profile', fn ($q) => $q->where('username', 'like', "%$payload%"))
+            ->get();
         return response($result);
     }
 
@@ -39,23 +37,6 @@ class UserController extends Controller
             Log::error($e);
             abort(500, $e);
         }
-    }
-
-    public function like(Request $request)
-    {
-        $user = Auth::user();
-        $like = Like::where('user_id', $user->id)->where('post_id', $request->post_id)->first();
-
-        if($like){
-            $like->delete();
-        }else{
-            $like = new Like();
-            $like->user_id = $user->id;
-            $like->post_id = $request->post_id;
-            $like->type = TypeLike::Like;
-            $like->save();
-        }
-        return response('ok', 201);
     }
 
     function retrieve()

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TypeLeague;
+use App\Enums\TypeProfile;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -37,12 +39,12 @@ class GoogleController extends Controller
             'bearer_token' => $user->createToken($request->device_name)->plainTextToken
         ]), 201);
     }
-    
+
     private function generateNewProfile(User $user, String $avatar): Profile
     {
         $profile = new Profile();
 
-        $profile->type_profile_id = rand(1,3);
+        $profile->type_profile = TypeProfile::cases()[rand(0, count(TypeProfile::cases()) - 1)];
         $profile->username = Str::slug($user->name, '-');
         $profile->description = 'Description example';
         $profile->profile_mini_image = $avatar;
@@ -50,7 +52,7 @@ class GoogleController extends Controller
         $profile->phone = "656566565";
         $profile->fav_styles = json_encode([1,2,3,4,5]);
         $profile->fav_brands = json_encode([1,2,3,4,5]);
-                
+
         return $profile;
     }
 }

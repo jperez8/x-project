@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\League;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;

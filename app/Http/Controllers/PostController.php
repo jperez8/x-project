@@ -117,7 +117,7 @@ class PostController extends Controller
         $postUserService = new PostUserService($user, $post);
         $postUserService->scorePost($request->get('score'));
 
-        Log::info("Post $post->id scored");
+        Log::info("Post $post->id scored: " .$request->get('score'));
         return response('ok', 201);
     }
 
