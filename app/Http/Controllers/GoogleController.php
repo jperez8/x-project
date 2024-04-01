@@ -32,7 +32,7 @@ class GoogleController extends Controller
 
         Log::info("User $user->email logged in");
 
-        $user->load('profile.typeProfile');
+        $user->load('profile');
 
         return response(json_encode([
             'user' => $user,

@@ -58,4 +58,15 @@ class Post extends Model implements HasMedia
     {
         return $this->getFirstMediaUrl();
     }
+
+    public function garments()
+    {
+        return $this->belongsToMany(Garment::class);
+
+    }
+
+    public function garmentsString()
+    {
+        return $this->garments->map(fn (Garment $garment) => $garment->name)->join(', ');
+    }
 }

@@ -42,12 +42,12 @@ class UserController extends Controller
     function retrieve()
     {
         //CAMBIAR POR ID BUENO
-        $user = User::find(12);
-        $user->load('profile.typeProfile');
+        $user = User::find(10);
+        $user->load('profile');
 
         return response(json_encode([
             'user' => $user,
             'bearer_token' => $user->createToken('iphone15')->plainTextToken
-        ]), 201);
+        ]), 200);
     }
 }

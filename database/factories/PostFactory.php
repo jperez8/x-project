@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Brand;
+use App\Models\Garment;
 use App\Models\Post;
 use App\Models\Style;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -31,6 +32,7 @@ class PostFactory extends Factory
             for ($i=0; $i < fake()->numberBetween(1, 2); $i++) {
                 $post->addMediaFromUrl(asset('images/image-'. fake()->numberBetween(0, 7) .'.jpg'))->toMediaCollection();
             }
+            $post->garments()->saveMany(Garment::inRandomOrder()->take(2)->get());
             Style::all()->random()->posts()->save($post);
             Brand::all()->random()->posts()->save($post);
         });
