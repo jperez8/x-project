@@ -19,8 +19,10 @@ class DatabaseSeeder extends Seeder
             StyleSeeder::class,
             BrandSeeder::class,
             TypeProfileSeeder::class,
+            LeagueSeeder::class,
             SplitSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            PostUserScoreSeeder::class
         ]);
     }
 }

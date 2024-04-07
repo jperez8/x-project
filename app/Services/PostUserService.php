@@ -12,12 +12,14 @@ class PostUserService
 
     public function scorePost(int $score): PostUserScore
     {
-        return PostUserScore::updateOrCreate([
+        $postUserScore = PostUserScore::updateOrCreate([
             'user_id' => $this->user->id,
             'post_id' => $this->post->id
         ], [
             'score' => $score
         ]);
+
+        return $postUserScore;
     }
 
     public function getScorePost(): ?int

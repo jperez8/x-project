@@ -69,4 +69,9 @@ class Post extends Model implements HasMedia
     {
         return $this->garments->map(fn (Garment $garment) => $garment->name)->join(', ');
     }
+
+    public function postUserScores()
+    {
+        return $this->hasMany(PostUserScore::class);
+    }
 }

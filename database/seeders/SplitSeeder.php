@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use App\Enums\TypeProfile;
 use App\Models\League;
+use App\Models\LeagueSplit;
 use App\Models\Split;
+use Database\Factories\LeagueSplitFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
@@ -18,37 +20,15 @@ class SplitSeeder extends Seeder
      */
     public function run()
     {
-        Split::factory()->has(League::factory()->count(6)->sequence(
-            [
-                'name' => 'bronze',
-                'slug' => 'bronze',
-                'type_profile' => TypeProfile::Influencer
-            ],
-            [
-                'name' => 'silver',
-                'slug' => 'silver',
-                'type_profile' => TypeProfile::Influencer
-            ],
-            [
-                'name' => 'gold',
-                'slug' => 'gold',
-                'type_profile' => TypeProfile::Influencer
-            ],
-            [
-                'name' => 'bronze',
-                'slug' => 'bronze',
-                'type_profile' => TypeProfile::Designer
-            ],
-            [
-                'name' => 'silver',
-                'slug' => 'silver',
-                'type_profile' => TypeProfile::Designer
-            ],
-            [
-                'name' => 'gold',
-                'slug' => 'gold',
-                'type_profile' => TypeProfile::Designer
-            ]
-        ))->create();
+        $split = Split::factory()->create();
+
+        $leagues = League::all();
+
+        foreach ($leagues as $league) {
+            LeagueSplit::factory()->state([
+                'split_id' => $split->id,
+                'league_id' => $league->id,
+            ])->create();
+        }
     }
 }

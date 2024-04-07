@@ -9,13 +9,5 @@ class League extends Model
 {
     use HasFactory;
 
-    function splits()
-    {
-        return $this->belongsToMany(Split::class)->withPivot('prize_ids');
-    }
 
-    function users()
-    {
-        return $this->belongsToMany(User::class)->withPivot('points');
-    }
 }

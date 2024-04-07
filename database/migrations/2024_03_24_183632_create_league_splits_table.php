@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\League;
-use App\Models\User;
+use App\Models\Split;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +15,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('league_user', function (Blueprint $table) {
+        Schema::create('league_splits', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Split::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(League::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->decimal('points', 10, 2)->default(0);
+            $table->json('prize_ids')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('league_user');
+        Schema::dropIfExists('league_split');
     }
 };

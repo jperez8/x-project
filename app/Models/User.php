@@ -76,9 +76,9 @@ class User extends Authenticatable
         return $this->belongsToMany(self::class, 'user_user', 'follower_id', 'followed_id')->withPivot('is_premium')->wherePivot('is_accepted', true);
     }
 
-    public function leagues()
+    public function leagueSplits()
     {
-        return $this->belongsToMany(League::class)->withPivot('points');
+        return $this->belongsToMany(LeagueSplit::class)->withPivot('points', 'delta');
     }
 
     /**

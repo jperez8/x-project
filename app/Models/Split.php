@@ -11,6 +11,6 @@ class Split extends Model
 
     function leagues()
     {
-        return $this->belongsToMany(League::class)->withPivot('prize_ids');
+        return $this->belongsToMany(LeagueSplit::class)->withPivot('prize_ids');
     }
 }
